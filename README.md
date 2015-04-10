@@ -21,7 +21,7 @@ Checks whether there is a face in an image.
 
 ## Return values
 
-* ok = `Good. Face detected`
+* ok = <face_width_percent_4dp> <face_height_percent_4dp>
 * no_face = `No face detected`
 * not_frontal = `Not a frontal face`
 * no_eyes = `Both eyes not detected`
@@ -30,6 +30,7 @@ Checks whether there is a face in an image.
 ## Example
 
     $ python verifier.py lena.png
-    Good. Face detected
+    0.1232 0.3454
 
-
+    $ python verifier.py no_face.png
+    No face detected

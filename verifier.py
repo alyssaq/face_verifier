@@ -13,8 +13,9 @@
     --version              Show version
 """
 
-import cv2
+from __future__ import division
 from docopt import docopt
+import cv2
 
 face_cascade = cv2.CascadeClassifier('data/haarcascade_frontalface_alt2.xml')
 lefteye_cascade = cv2.CascadeClassifier('data/haarcascade_mcs_lefteye.xml')
@@ -45,6 +46,12 @@ def largest_area_index(arr):
   return largest_index
 
 def detect_face(img, min_area=0, border_percent=0.1):
+  # Taken from Stasm 4.0
+  face_scale_factor = 1.1
+  eyes_scale_factor = 1.2
+  min_neighbours = 3
+  flags = 0
+
   rows, cols = img.shape[:2]
   topborder = int(border_percent * rows)
   leftborder = int(border_percent * cols)
@@ -52,7 +59,9 @@ def detect_face(img, min_area=0, border_percent=0.1):
     img, topborder, topborder, leftborder, leftborder,
     cv2.BORDER_REPLICATE, value=(0, 0, 0))
 
-  faces = face_cascade.detectMultiScale(img)
+  faces = face_cascade.detectMultiScale(
+    img, face_scale_factor, min_neighbours, flags)
+
   if len(faces) == 0:
     return DETECTOR_CODES.no_face
 
@@ -63,13 +72,15 @@ def detect_face(img, min_area=0, border_percent=0.1):
     return DETECTOR_CODES.too_small
 
   face_roi = img[y:y+h, x:x+w]
-  left_eye = lefteye_cascade.detectMultiScale(face_roi, 2)
-  right_eye = lefteye_cascade.detectMultiScale(face_roi, 2)
+  left_eye = lefteye_cascade.detectMultiScale(
+    face_roi, eyes_scale_factor, min_neighbours, flags)
+  right_eye = lefteye_cascade.detectMultiScale(
+    face_roi, eyes_scale_factor, min_neighbours, flags)
 
   if len(left_eye) == 0 or len(right_eye) == 0:
     return DETECTOR_CODES.no_eyes
 
-  return DETECTOR_CODES.ok
+  return '{:.4f}, {:.4f}'.format(w / cols, h / rows)
 
 def process_img(path, min_area=0):
   img = cv2.imread(path)
