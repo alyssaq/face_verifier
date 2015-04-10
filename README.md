@@ -4,8 +4,9 @@ Checks whether there is a face in an image.
 
 ## Prerequisities
 
-  * Python 2.7
-  * [OpenCV](http://opencv.org)   
+  * [Python 2.7](https://www.python.org/downloads)
+  * [OpenCV](http://opencv.org) - [Mac installation steps](http://scriptogr.am/alyssa/post/installing-opencv-on-mac-osx-with-homebrew)
+  * [docopt](http://docopt.org) - pip install docopt
   * Data for the haar face classifiers are in the `data` folder.
 
 ## Usage
