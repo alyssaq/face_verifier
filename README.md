@@ -21,7 +21,7 @@ Checks whether there is a face in an image.
 
 ## Return values
 
-* ok = <face_width_percent_4dp> <face_height_percent_4dp>
+* ok = `<face_width_percent_4dp> <face_height_percent_4dp>`
 * no_face = `No face detected`
 * not_frontal = `Not a frontal face`
 * no_eyes = `Both eyes not detected`
